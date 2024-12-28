@@ -3,6 +3,7 @@ package com.infobasic.sviluppo_sowftare.dao;
 import com.infobasic.sviluppo_sowftare.model.User;
 import com.infobasic.sviluppo_sowftare.utility.UserType;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ public class UserDao extends GenericDao<User, Integer> {
 
     @Override
     protected String getInsertQuery() {
-        return "INSERT INTO " + getTableName() + " (name, surname, birthdate, idtype) VALUES (?, ?, ?)";
+        return "INSERT INTO " + getTableName() + " (name, surname, birthdate, idtype) VALUES (?, ?, ?,?)";
     }
 
     @Override
@@ -36,8 +37,22 @@ public class UserDao extends GenericDao<User, Integer> {
 
         ps.setString(1, user.getName());
         ps.setString(2, user.getSurname());
-        ps.setString(3, user.getBirthdate().toString());
-        ps.setString(2, user.getRole().toString());
+        ps.setDate(3, Date.valueOf(user.getBirthdate()));
+
+        String roleQuery = "SELECT id FROM usertype WHERE name = ?";
+
+        try{
+            PreparedStatement psRole = connection.prepareStatement(roleQuery);
+            psRole.setString(1,user.getRole().toString());
+            ResultSet rsRole = psRole.executeQuery();
+
+            if(rsRole.next()){
+                int role = rsRole.getInt("id");
+                ps.setInt(4, role);
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -50,9 +65,9 @@ public class UserDao extends GenericDao<User, Integer> {
 
         ps.setString(1, user.getName());
         ps.setString(2, user.getSurname());
-        ps.setString(3, user.getBirthdate().toString());
-        ps.setString(2, user.getRole().toString());
-        ps.setInt(4, user.getId());
+        ps.setDate(3, Date.valueOf(user.getBirthdate()));
+        ps.setString(4, user.getRole().toString());
+        ps.setInt(5, user.getId());
     }
 
     @Override

@@ -13,7 +13,7 @@ public class UserCourse {
     @NonNull
     private int id;
     @NonNull
-    private Course clas;
+    private int courseId;
     @NonNull
-    private User user;
+    private int userId;
 }

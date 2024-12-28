@@ -20,6 +20,6 @@ public class Lesson {
     private String description;
     @NonNull
     private LocalDateTime date;
-    private Course course;
+    private int courseId;
 
 }
