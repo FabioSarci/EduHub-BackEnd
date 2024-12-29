@@ -57,4 +57,19 @@ public class CredentialDao extends GenericDao<Credential, Integer> {
     protected void setGeneratedId(Credential credential, int id) {
         credential.setId(id);
     }
+
+    public Credential findByEmail(Credential credential){
+        String query = "SELECT * FROM " + getTableName() + " WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, credential.getEmail());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToEntity(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore durante la ricerca per ID", e);
+        }
+        return null;
+    }
 }

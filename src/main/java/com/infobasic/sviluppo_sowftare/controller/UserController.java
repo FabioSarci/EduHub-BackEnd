@@ -5,7 +5,6 @@ import com.infobasic.sviluppo_sowftare.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserController {
@@ -27,7 +26,10 @@ public class UserController {
         app.get("/user/{id}", this::getUserById);
 
         //Count all Users
-        app.get("/users", this::countAllUsers);
+        app.get("/users/count", this::countAllUsers);
+
+        //Find all Users
+        app.get("/users", this::findAllUsers);
     }
 
     public void registerUser(Context ctx){
@@ -68,6 +70,15 @@ public class UserController {
             ctx.status(200).json(count);
         } catch (Exception e) {
             ctx.status(404).json("Something gone wrong");
+        }
+    }
+
+    public void findAllUsers(Context ctx){
+        try{
+            List<User> allUsers = userService.findAllUsers();
+            ctx.status(200).json(allUsers);
+        } catch (Exception e) {
+            ctx.status(404).json("Something some wrong");
         }
     }
 }

@@ -4,7 +4,6 @@ import com.infobasic.sviluppo_sowftare.dao.UserDao;
 import com.infobasic.sviluppo_sowftare.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public class UserService {
 
