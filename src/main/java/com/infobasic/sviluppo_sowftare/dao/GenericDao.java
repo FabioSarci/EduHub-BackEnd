@@ -28,19 +28,19 @@ public abstract class GenericDao<T, ID> implements GenericDaoInterface<T, ID> {
     protected abstract void setUpdateStatement(PreparedStatement ps, T entity) throws SQLException;
 
     @Override
-    public Optional<T> findById(ID id) {
+    public T findById(ID id) {
         String query = "SELECT * FROM " + getTableName() + " WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setObject(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(mapResultSetToEntity(rs));
+                    return mapResultSetToEntity(rs);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Errore durante la ricerca per ID", e);
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
@@ -96,7 +96,10 @@ public abstract class GenericDao<T, ID> implements GenericDaoInterface<T, ID> {
         String query = "DELETE FROM " + getTableName() + " WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setObject(1, id);
-            ps.executeUpdate();
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) {
+                throw new RuntimeException("Nessuna riga trovata per l'ID: " + id);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Errore durante l'eliminazione per ID", e);
         }

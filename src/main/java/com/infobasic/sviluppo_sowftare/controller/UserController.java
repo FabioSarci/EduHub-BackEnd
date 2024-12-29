@@ -11,16 +11,48 @@ public class UserController {
 
     public void userRoutes(Javalin app){
 
-        //Registration
+        //Create User
         app.get("/register", this::registerUser);
+
+        //Delete User
+        app.delete("/user/delete/{id}", this::deleteUserById);
+
+        //Edit User
+        app.put("/user/edit", this::editUser);
+
+        //Get User By Id
+        app.get("/user/{id}", this::getUserById);
     }
 
     public void registerUser(Context ctx){
-        userService.addUser(ctx.bodyAsClass(User.class));
+        User user = userService.addUser(ctx.bodyAsClass(User.class));
+        ctx.status(200).json(user);
     }
 
     public void deleteUserById(Context ctx){
-        userService.deleteUserById(Integer.parseInt(ctx.pathParam("id")));
-        ctx.status(201);
+        try{
+            userService.deleteUserById(Integer.parseInt(ctx.pathParam("id")));
+            ctx.status(200).json("User deleted successfully");
+        }catch (Exception e){
+            ctx.status(404).json("User not found");
+        }
+    }
+
+    public void editUser(Context ctx) {
+        try{
+            User user = userService.editUser(ctx.bodyAsClass(User.class));
+            ctx.status(200).json(user);
+        } catch (Exception e) {
+            ctx.status(404).json("User not found");
+        }
+    }
+
+    public void getUserById(Context ctx){
+        try{
+            User user = userService.findUserById(Integer.parseInt(ctx.pathParam("id")));
+            ctx.status(200).json(user);
+        } catch (NumberFormatException e) {
+            ctx.status(404).json("User not found");
+        }
     }
 }

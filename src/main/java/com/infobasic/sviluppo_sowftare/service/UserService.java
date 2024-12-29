@@ -19,7 +19,7 @@ public class UserService {
             return userDao.update(user);
         }
 
-        public Optional<User> findUserById(int id){
+        public User findUserById(int id){
             return userDao.findById(id);
         }
 
