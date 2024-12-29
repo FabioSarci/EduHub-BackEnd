@@ -5,6 +5,9 @@ import com.infobasic.sviluppo_sowftare.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserController {
 
     private final UserService userService = new UserService();
@@ -22,6 +25,9 @@ public class UserController {
 
         //Get User By Id
         app.get("/user/{id}", this::getUserById);
+
+        //Count all Users
+        app.get("/users", this::countAllUsers);
     }
 
     public void registerUser(Context ctx){
@@ -53,6 +59,15 @@ public class UserController {
             ctx.status(200).json(user);
         } catch (NumberFormatException e) {
             ctx.status(404).json("User not found");
+        }
+    }
+
+    public void countAllUsers(Context ctx){
+        try {
+            long count = userService.countUsers();
+            ctx.status(200).json(count);
+        } catch (Exception e) {
+            ctx.status(404).json("Something gone wrong");
         }
     }
 }

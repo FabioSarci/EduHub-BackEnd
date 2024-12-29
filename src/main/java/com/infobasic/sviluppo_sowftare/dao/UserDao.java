@@ -57,7 +57,7 @@ public class UserDao extends GenericDao<User, Integer> {
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE " + getTableName() + " SET name = ?, surname = ?, birthdate = ?, idtype = ?, WHERE id = ?";
+        return "UPDATE " + getTableName() + " SET name = ?, surname = ?, birthdate = ?, idtype = ? WHERE id = ?";
     }
 
     @Override
@@ -66,7 +66,21 @@ public class UserDao extends GenericDao<User, Integer> {
         ps.setString(1, user.getName());
         ps.setString(2, user.getSurname());
         ps.setDate(3, Date.valueOf(user.getBirthdate()));
-        ps.setString(4, user.getRole().toString());
+
+        String roleQuery = "SELECT id FROM usertype WHERE name = ?";
+
+        try{
+            PreparedStatement psRole = connection.prepareStatement(roleQuery);
+            psRole.setString(1,user.getRole().toString());
+            ResultSet rsRole = psRole.executeQuery();
+
+            if(rsRole.next()){
+                int role = rsRole.getInt("id");
+                ps.setInt(4, role);
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
         ps.setInt(5, user.getId());
     }
 
