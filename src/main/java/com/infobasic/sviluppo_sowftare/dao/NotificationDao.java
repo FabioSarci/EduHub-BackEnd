@@ -38,7 +38,7 @@ public class NotificationDao extends GenericDao<Notification, Integer>{
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE" + getTableName() + "SET Object = ?, body = ?, WJERE id = ?";
+        return "UPDATE" + getTableName() + "SET Object = ?, body = ? WHERE id = ?";
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.infobasic.sviluppo_sowftare.dao;
 
 import com.infobasic.sviluppo_sowftare.model.Lesson;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,13 +35,13 @@ public class LessonDao extends GenericDao<Lesson, Integer>{
 
         ps.setString(1, lesson.getTopic());
         ps.setString(2, lesson.getDescription());
-        ps.setString(3,lesson.getDate().toString());
+        ps.setDate(3, Date.valueOf(lesson.getDate().toString()));
         ps.setInt(4,lesson.getCourseId());
     }
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE " + getTableName() + " SET topic = ?, description = ?, date = ?, WHERE id = ?";
+        return "UPDATE " + getTableName() + " SET topic = ?, description = ?, date = ? WHERE id = ?";
     }
 
     @Override

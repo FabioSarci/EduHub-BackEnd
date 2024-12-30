@@ -30,19 +30,20 @@ public class UserCourseDao extends GenericDao<UserCourse, Integer>{
     protected void setInsertStatement(PreparedStatement ps, UserCourse userCourse) throws SQLException {
 
         ps.setInt(1,userCourse.getCourseId());
-        ps.setInt(1,userCourse.getUserId());
+        ps.setInt(2,userCourse.getUserId());
     }
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE " + getTableName() + " SET classid = ?, userid = ?, WHERE id = ?";
+        return "UPDATE " + getTableName() + " SET classid = ?, userid = ? WHERE id = ?";
     }
 
     @Override
     protected void setUpdateStatement(PreparedStatement ps, UserCourse userCourse) throws SQLException {
 
         ps.setInt(1,userCourse.getCourseId());
-        ps.setInt(1,userCourse.getUserId());
+        ps.setInt(2,userCourse.getUserId());
+        ps.setInt(3,userCourse.getId());
     }
 
     @Override
