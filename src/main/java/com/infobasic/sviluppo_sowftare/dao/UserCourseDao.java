@@ -1,10 +1,13 @@
 package com.infobasic.sviluppo_sowftare.dao;
 
+import com.infobasic.sviluppo_sowftare.model.User;
 import com.infobasic.sviluppo_sowftare.model.UserCourse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserCourseDao extends GenericDao<UserCourse, Integer>{
     @Override
@@ -44,6 +47,44 @@ public class UserCourseDao extends GenericDao<UserCourse, Integer>{
         ps.setInt(1,userCourse.getCourseId());
         ps.setInt(2,userCourse.getUserId());
         ps.setInt(3,userCourse.getId());
+    }
+
+    public List<UserCourse> findUserCoursesByIdCourse(int courseId){
+
+        String querySQL = "SELECT * from " + getTableName() + " WHERE classid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, courseId);
+            ResultSet rs = ps.executeQuery();
+            List<UserCourse> userCourseByIdCourseList = new ArrayList<>();
+            while(rs.next()){
+                userCourseByIdCourseList.add(mapResultSetToEntity(rs));
+            }
+            return userCourseByIdCourseList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<UserCourse> findUserCoursesByIdUser(int userId){
+
+        String querySQL = "SELECT * from " + getTableName() + " WHERE userId = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            List<UserCourse> userCourseByIdUserList = new ArrayList<>();
+            while(rs.next()){
+                userCourseByIdUserList.add(mapResultSetToEntity(rs));
+            }
+            return userCourseByIdUserList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

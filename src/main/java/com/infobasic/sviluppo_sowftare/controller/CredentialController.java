@@ -15,7 +15,7 @@ public class CredentialController {
     public void credentialRoutes(Javalin app){
 
         //Create Credential
-        app.get("/credential/register", this::registerCredential);
+        app.post("/credential/register", this::registerCredential);
 
         //Edit Credential
         app.before("/credential/edit", ctx -> new JwtAuthMiddleware().handle(ctx));
@@ -34,7 +34,7 @@ public class CredentialController {
         app.get("/credentials", this::findAllCredentials);
     }
 
-    public void registerCredential(Context ctx){
+    private void registerCredential(Context ctx){
         Credential credential = credentialService.addCredential(ctx.bodyAsClass(Credential.class));
         ctx.status(200).json(credential);
     }
