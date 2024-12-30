@@ -17,5 +17,5 @@ public class Credential {
     @NonNull
     private String password;
     @NonNull
-    private int userId;
+    private int userid;
 }

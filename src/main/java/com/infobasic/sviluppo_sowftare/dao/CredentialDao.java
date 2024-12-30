@@ -36,13 +36,13 @@ public class CredentialDao extends GenericDao<Credential, Integer> {
     protected void setInsertStatement(PreparedStatement ps, Credential credential) throws SQLException {
         ps.setString(1, credential.getEmail());
         ps.setString(2,credential.getPassword());
-        ps.setInt(3,credential.getId());
+        ps.setInt(3,credential.getUserid());
 
     }
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE " + getTableName() + " SET email = ?, password = ?, WHERE id = ?";
+        return "UPDATE " + getTableName() + " SET email = ?, password = ? WHERE id = ?";
     }
 
     @Override
@@ -58,10 +58,10 @@ public class CredentialDao extends GenericDao<Credential, Integer> {
         credential.setId(id);
     }
 
-    public Credential findByEmail(Credential credential){
+    public Credential findByEmail(String email){
         String query = "SELECT * FROM " + getTableName() + " WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, credential.getEmail());
+            ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return mapResultSetToEntity(rs);

@@ -17,8 +17,8 @@ public class CredentialService {
         return credentialDao.update(credential);
     }
 
-    public Credential findCredentialByEmail(Credential credential){
-        return credentialDao.findByEmail(credential);
+    public Credential findCredentialByEmail(String email){
+        return credentialDao.findByEmail(email);
     }
 
     public List<Credential> findAllCredentials(){

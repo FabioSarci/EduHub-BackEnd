@@ -14,7 +14,7 @@ public class UserController {
     public void userRoutes(Javalin app){
 
         //Create User
-        app.get("/register", this::registerUser);
+        app.get("/user/register", this::registerUser);
 
         //Delete User
         app.delete("/user/delete/{id}", this::deleteUserById);
