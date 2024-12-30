@@ -15,7 +15,7 @@ public class UserController {
     public void userRoutes(Javalin app){
 
         //Create User
-        app.get("/user/register", this::registerUser);
+        app.post("/user/register", this::registerUser);
 
         //Delete User
         app.before("/user/delete/{id}", ctx -> new JwtAuthMiddleware().handle(ctx));
@@ -38,7 +38,7 @@ public class UserController {
         app.get("/users", this::findAllUsers);
     }
 
-    public void registerUser(Context ctx){
+    private void registerUser(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
@@ -48,7 +48,7 @@ public class UserController {
         ctx.status(200).json(user);
     }
 
-    public void deleteUserById(Context ctx){
+    private void deleteUserById(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
@@ -62,7 +62,7 @@ public class UserController {
         }
     }
 
-    public void editUser(Context ctx) {
+    private void editUser(Context ctx) {
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
@@ -76,7 +76,7 @@ public class UserController {
         }
     }
 
-    public void getUserById(Context ctx){
+    private void getUserById(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
@@ -90,7 +90,7 @@ public class UserController {
         }
     }
 
-    public void countAllUsers(Context ctx){
+    private void countAllUsers(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
@@ -104,7 +104,7 @@ public class UserController {
         }
     }
 
-    public void findAllUsers(Context ctx){
+    private void findAllUsers(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");

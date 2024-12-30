@@ -30,8 +30,8 @@ public class CourseDao extends GenericDao<Course,Integer>{
     @Override
     protected void setInsertStatement(PreparedStatement ps, Course course) throws SQLException {
 
-        ps.setString(1,course.getCourseName());
-        ps.setString(1,course.getSection());
+        ps.setString(1,course.getCoursename());
+        ps.setString(2,course.getSection());
         ps.setString(3,course.getSubject());
     }
 
@@ -43,8 +43,8 @@ public class CourseDao extends GenericDao<Course,Integer>{
     @Override
     protected void setUpdateStatement(PreparedStatement ps, Course course) throws SQLException {
 
-        ps.setString(1,course.getCourseName());
-        ps.setString(1,course.getSection());
+        ps.setString(1,course.getCoursename());
+        ps.setString(2,course.getSection());
         ps.setString(3,course.getSubject());
         ps.setInt(4, course.getId());
     }

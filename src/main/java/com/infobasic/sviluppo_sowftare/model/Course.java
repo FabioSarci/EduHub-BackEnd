@@ -13,7 +13,7 @@ public class Course {
     @NonNull
     private int id;
     @NonNull
-    private String courseName;
+    private String coursename;
     @NonNull
     private String section;
     @NonNull
