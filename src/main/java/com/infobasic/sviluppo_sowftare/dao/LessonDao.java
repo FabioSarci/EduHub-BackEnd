@@ -1,12 +1,15 @@
 package com.infobasic.sviluppo_sowftare.dao;
 
 import com.infobasic.sviluppo_sowftare.model.Lesson;
+import com.infobasic.sviluppo_sowftare.model.Notification;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LessonDao extends GenericDao<Lesson, Integer>{
     @Override
@@ -16,7 +19,7 @@ public class LessonDao extends GenericDao<Lesson, Integer>{
                 rs.getString("topic"),
                 rs.getString("description"),
                 LocalDateTime.parse(rs.getString("date")),
-                rs.getInt("courseid")
+                rs.getInt("classid")
         );
     }
 
@@ -27,7 +30,7 @@ public class LessonDao extends GenericDao<Lesson, Integer>{
 
     @Override
     protected String getInsertQuery() {
-        return "INSERT INTO " + getTableName() + " (topic,description,date,courseid) VALUES (?,?,?,?)";
+        return "INSERT INTO " + getTableName() + " (topic,description,date,classid) VALUES (?,?,?,?)";
     }
 
     @Override
@@ -51,6 +54,25 @@ public class LessonDao extends GenericDao<Lesson, Integer>{
         ps.setString(2, lesson.getDescription());
         ps.setString(3,lesson.getDate().toString());
         ps.setInt(4,lesson.getId());
+    }
+
+    public List<Lesson> findAllLessonsByCourseId(int id){
+
+        String querySQL = "SELECT * from " + getTableName() + " WHERE classid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            List<Lesson> lessonsByCourseIdList = new ArrayList<>();
+            while(rs.next()){
+                lessonsByCourseIdList.add(mapResultSetToEntity(rs));
+            }
+            return lessonsByCourseIdList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

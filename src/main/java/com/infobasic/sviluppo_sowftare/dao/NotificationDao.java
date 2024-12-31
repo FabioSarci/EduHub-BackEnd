@@ -60,11 +60,11 @@ public class NotificationDao extends GenericDao<Notification, Integer>{
             PreparedStatement ps = connection.prepareStatement(querySQL);
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
-            List<Notification> NotificationsByIdUserList = new ArrayList<>();
+            List<Notification> notificationsByIdUserList = new ArrayList<>();
             while(rs.next()){
-                NotificationsByIdUserList.add(mapResultSetToEntity(rs));
+                notificationsByIdUserList.add(mapResultSetToEntity(rs));
             }
-            return NotificationsByIdUserList;
+            return notificationsByIdUserList;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
