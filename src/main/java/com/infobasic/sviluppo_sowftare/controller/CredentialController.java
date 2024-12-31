@@ -39,27 +39,35 @@ public class CredentialController {
         ctx.status(200).json(credential);
     }
 
-    public void editCredential(Context ctx){
+    private void editCredential(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
             return;
         }
-        Credential credential = credentialService.editCredential(ctx.bodyAsClass(Credential.class));
-        ctx.status(200).json(credential);
+        try{
+            Credential credential = credentialService.editCredential(ctx.bodyAsClass(Credential.class));
+            ctx.status(200).json(credential);
+        } catch (Exception e) {
+            ctx.status(404).json("Credential not found");
+        }
     }
 
-    public void getCredentialByEmail(Context ctx){
+    private void getCredentialByEmail(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
             return;
         }
-        Credential credential = credentialService.findCredentialByEmail(email);
-        ctx.status(200).json(credential);
+        try {
+            Credential credential = credentialService.findCredentialByEmail(email);
+            ctx.status(200).json(credential);
+        } catch (Exception e) {
+            ctx.json("Wrong credentials");
+        }
     }
 
-    public void countCredentials(Context ctx){
+    private void countCredentials(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");
@@ -69,7 +77,7 @@ public class CredentialController {
         ctx.status(200).json(count);
     }
 
-    public void findAllCredentials(Context ctx){
+    private void findAllCredentials(Context ctx){
         String email = ctx.attribute("email");
         if (email == null) {
             ctx.status(401).result("Unauthorized");

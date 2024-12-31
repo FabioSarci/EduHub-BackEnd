@@ -70,7 +70,7 @@ public class UserCourseDao extends GenericDao<UserCourse, Integer>{
 
     public List<UserCourse> findUserCoursesByIdUser(int userId){
 
-        String querySQL = "SELECT * from " + getTableName() + " WHERE userId = ? ";
+        String querySQL = "SELECT * from " + getTableName() + " WHERE userid = ? ";
 
         try{
             PreparedStatement ps = connection.prepareStatement(querySQL);
