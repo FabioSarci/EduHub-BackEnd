@@ -17,5 +17,5 @@ public class Notification {
     @NonNull
     private String body;
     @NonNull
-    private int userId;
+    private int userid;
 }

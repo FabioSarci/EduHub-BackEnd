@@ -1,10 +1,13 @@
 package com.infobasic.sviluppo_sowftare.dao;
 
 import com.infobasic.sviluppo_sowftare.model.Notification;
+import com.infobasic.sviluppo_sowftare.model.UserCourse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationDao extends GenericDao<Notification, Integer>{
     @Override
@@ -33,7 +36,7 @@ public class NotificationDao extends GenericDao<Notification, Integer>{
 
         ps.setString(1, notification.getObject());
         ps.setString(2, notification.getBody());
-        ps.setInt(3,notification.getUserId());
+        ps.setInt(3,notification.getUserid());
     }
 
     @Override
@@ -48,6 +51,24 @@ public class NotificationDao extends GenericDao<Notification, Integer>{
         ps.setString(2, notification.getBody());
         ps.setInt(3,notification.getId());
 
+    }
+
+    public List<Notification> getByUserId(int userId){
+        String querySQL = "SELECT * from " + getTableName() + " WHERE userid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            List<Notification> NotificationsByIdUserList = new ArrayList<>();
+            while(rs.next()){
+                NotificationsByIdUserList.add(mapResultSetToEntity(rs));
+            }
+            return NotificationsByIdUserList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
