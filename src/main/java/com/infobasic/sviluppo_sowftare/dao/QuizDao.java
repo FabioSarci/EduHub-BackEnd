@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuizDao extends GenericDao<Quiz, Integer>{
 
@@ -56,5 +58,23 @@ public class QuizDao extends GenericDao<Quiz, Integer>{
     @Override
     protected void setGeneratedId(Quiz quiz, int id) {
         quiz.setId(id);
+    }
+
+    public List<Quiz> getQuizByCourseId(int courseId){
+        String querySQL = "SELECT * from " + getTableName() + " WHERE courseid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, courseId);
+            ResultSet rs = ps.executeQuery();
+            List<Quiz> quizByLessonIdList = new ArrayList<>();
+            while(rs.next()){
+                quizByLessonIdList.add(mapResultSetToEntity(rs));
+            }
+            return quizByLessonIdList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
