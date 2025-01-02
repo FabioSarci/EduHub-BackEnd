@@ -13,5 +13,5 @@ public class Presence {
     private int id;
     private int lessonId;
     private int userId;
-    private boolean isPresent;
+    private boolean present;
 }

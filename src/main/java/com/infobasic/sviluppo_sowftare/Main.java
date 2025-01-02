@@ -18,6 +18,7 @@ public class Main {
         UserCourseController userCourseController = new UserCourseController();
         NotificationController notificationController = new NotificationController();
         LessonController lessonController = new LessonController();
+        PresenceController presenceController = new PresenceController();
 
         authController.loginRoutes(app);
         userController.userRoutes(app);
@@ -26,6 +27,7 @@ public class Main {
         userCourseController.userCourseRoutes(app);
         notificationController.userRoutes(app);
         lessonController.LessonRoutes(app);
+        presenceController.presenceRoutes(app);
 
     }
 }

@@ -15,7 +15,7 @@ public class PresenceDao extends GenericDao<Presence, Integer>{
     protected Presence mapResultSetToEntity(ResultSet rs) throws SQLException {
         return new Presence(
                 rs.getInt("id"),
-                rs.getInt("lessionid"),
+                rs.getInt("lessonid"),
                 rs.getInt("userid"),
                 rs.getBoolean("ispresent")
         );
@@ -28,7 +28,7 @@ public class PresenceDao extends GenericDao<Presence, Integer>{
 
     @Override
     protected String getInsertQuery() {
-        return "INSERT INTO " + getTableName() + " (lessioid, userid, ispresent) VALUES (?,?,?)";
+        return "INSERT INTO " + getTableName() + " (lessonid, userid, ispresent) VALUES (?,?,?)";
     }
 
     @Override
