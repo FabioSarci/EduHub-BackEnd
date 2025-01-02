@@ -22,7 +22,7 @@ public class AnswerDao extends GenericDao<Answer,Integer>{
 
     @Override
     protected String getTableName() {
-        return "question";
+        return "answer";
     }
 
     @Override

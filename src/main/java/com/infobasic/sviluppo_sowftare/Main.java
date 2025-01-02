@@ -21,6 +21,7 @@ public class Main {
         PresenceController presenceController = new PresenceController();
         QuizController quizController = new QuizController();
         QuestionController questionController = new QuestionController();
+        AnswerController answerController = new AnswerController();
 
 
 
@@ -35,6 +36,7 @@ public class Main {
         presenceController.presenceRoutes(app);
         quizController.quizRoutes(app);
         questionController.questionRoutes(app);
+        answerController.answerRoutes(app);
 
     }
 }
