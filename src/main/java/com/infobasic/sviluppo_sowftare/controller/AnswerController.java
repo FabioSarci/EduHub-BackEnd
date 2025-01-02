@@ -57,7 +57,7 @@ public class AnswerController {
             Answer answer = answerService.editAnswer(ctx.bodyAsClass(Answer.class));
             ctx.status(200).json(answer);
         } catch (Exception e) {
-            ctx.status(404).result("Wrong data");
+            ctx.status(404).result("Wrong  data");
         }
     }
 
