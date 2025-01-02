@@ -5,6 +5,8 @@ import com.infobasic.sviluppo_sowftare.model.Presence;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PresenceDao extends GenericDao<Presence, Integer>{
 
@@ -47,6 +49,44 @@ public class PresenceDao extends GenericDao<Presence, Integer>{
 
         ps.setBoolean(1, presence.isPresent());
         ps.setInt(2,presence.getId());
+    }
+
+    public List<Presence> findPresencesByUserId(int userId){
+
+        String querySQL = "SELECT * from " + getTableName() + " WHERE userid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            List<Presence> presencesByUserIdList = new ArrayList<>();
+            while(rs.next()){
+                presencesByUserIdList.add(mapResultSetToEntity(rs));
+            }
+            return presencesByUserIdList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Presence> findPresencesByLessonId(int lessonId){
+
+        String querySQL = "SELECT * from " + getTableName() + " WHERE lessonid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, lessonId);
+            ResultSet rs = ps.executeQuery();
+            List<Presence> presencesByLessonIdList = new ArrayList<>();
+            while(rs.next()){
+                presencesByLessonIdList.add(mapResultSetToEntity(rs));
+            }
+            return presencesByLessonIdList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
