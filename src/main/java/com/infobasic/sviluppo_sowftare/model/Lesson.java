@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,7 +20,7 @@ public class Lesson {
     @NonNull
     private String description;
     @NonNull
-    private LocalDateTime date;
-    private int courseId;
+    private LocalDate date;
+    private int courseid;
 
 }

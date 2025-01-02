@@ -25,7 +25,7 @@ public class LessonService {
         return lessonDao.findAllLessonsByCourseId(id);
     }
 
-    public void deleteLesson (int id){
+    public void deleteLessonById(int id){
         lessonDao.deleteById(id);
     }
 }

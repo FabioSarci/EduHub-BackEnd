@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class LessonDao extends GenericDao<Lesson, Integer>{
                 rs.getInt("id"),
                 rs.getString("topic"),
                 rs.getString("description"),
-                LocalDateTime.parse(rs.getString("date")),
+                LocalDate.parse(rs.getString("date")),
                 rs.getInt("classid")
         );
     }
@@ -39,7 +40,7 @@ public class LessonDao extends GenericDao<Lesson, Integer>{
         ps.setString(1, lesson.getTopic());
         ps.setString(2, lesson.getDescription());
         ps.setDate(3, Date.valueOf(lesson.getDate().toString()));
-        ps.setInt(4,lesson.getCourseId());
+        ps.setInt(4,lesson.getCourseid());
     }
 
     @Override
@@ -52,7 +53,7 @@ public class LessonDao extends GenericDao<Lesson, Integer>{
 
         ps.setString(1, lesson.getTopic());
         ps.setString(2, lesson.getDescription());
-        ps.setString(3,lesson.getDate().toString());
+        ps.setDate(3, Date.valueOf(lesson.getDate().toString()));
         ps.setInt(4,lesson.getId());
     }
 
