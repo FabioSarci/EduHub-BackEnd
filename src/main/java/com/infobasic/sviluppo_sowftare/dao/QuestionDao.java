@@ -43,7 +43,7 @@ public class QuestionDao extends GenericDao<Question, Integer>{
 
         ps.setString(1,question.getText());
         ps.setInt(2,question.getQuizId());
-        ps.setInt(3, question.getId());
+        ps.setInt(3,question.getId());
     }
 
     @Override
