@@ -1,10 +1,13 @@
 package com.infobasic.sviluppo_sowftare.dao;
 
 import com.infobasic.sviluppo_sowftare.model.Answer;
+import com.infobasic.sviluppo_sowftare.model.Question;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnswerDao extends GenericDao<Answer,Integer>{
     @Override
@@ -52,5 +55,23 @@ public class AnswerDao extends GenericDao<Answer,Integer>{
     @Override
     protected void setGeneratedId(Answer question, int id) {
         question.setId(id);
+    }
+
+    public List<Answer> getAnswersByQuestionId(int id){
+        String querySQL = "SELECT * from " + getTableName() + " WHERE questionid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            List<Answer> answerByQuestionId = new ArrayList<>();
+            while(rs.next()){
+                answerByQuestionId.add(mapResultSetToEntity(rs));
+            }
+            return answerByQuestionId;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
