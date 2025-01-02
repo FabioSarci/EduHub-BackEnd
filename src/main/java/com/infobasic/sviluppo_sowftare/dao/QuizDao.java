@@ -2,10 +2,7 @@ package com.infobasic.sviluppo_sowftare.dao;
 
 import com.infobasic.sviluppo_sowftare.model.Quiz;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,7 @@ public class QuizDao extends GenericDao<Quiz, Integer>{
         return new Quiz(
                 rs.getInt("id"),
                 rs.getString("title"),
-                LocalDateTime.parse(rs.getDate("publishedat").toString()),
+                rs.getTimestamp("publishedat").toLocalDateTime(),
                 rs.getInt("courseid")
         );
     }
@@ -37,7 +34,7 @@ public class QuizDao extends GenericDao<Quiz, Integer>{
     protected void setInsertStatement(PreparedStatement ps, Quiz quiz) throws SQLException {
 
         ps.setString(1,quiz.getTitle());
-        ps.setDate(2, Date.valueOf(quiz.getPublishedAt().toLocalDate()));
+        ps.setTimestamp(2, Timestamp.valueOf((quiz.getPublishedAt())));
         ps.setInt(3,quiz.getCourseId());
     }
 
@@ -50,7 +47,7 @@ public class QuizDao extends GenericDao<Quiz, Integer>{
     protected void setUpdateStatement(PreparedStatement ps, Quiz quiz) throws SQLException {
 
         ps.setString(1,quiz.getTitle());
-        ps.setDate(2, Date.valueOf(quiz.getPublishedAt().toLocalDate()));
+        ps.setTimestamp(2, Timestamp.valueOf((quiz.getPublishedAt())));
         ps.setInt(3, quiz.getCourseId());
         ps.setInt(4, quiz.getId());
     }
