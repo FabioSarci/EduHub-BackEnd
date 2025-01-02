@@ -13,5 +13,5 @@ public class Question {
     @NonNull
     private int id;
     private String text;
-    private Quiz quiz;
+    private int quizId;
 }
