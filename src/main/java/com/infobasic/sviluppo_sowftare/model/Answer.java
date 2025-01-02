@@ -16,6 +16,6 @@ public class Answer {
     private String text;
     @NonNull
     private boolean isCorrect;
-    private Question question;
+    private int questionId;
 
 }
