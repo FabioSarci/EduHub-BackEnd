@@ -19,5 +19,5 @@ public class Quiz {
     @NonNull
     private LocalDateTime publishedAt;
     @NonNull
-    private Course course;
+    private int courseId;
 }
