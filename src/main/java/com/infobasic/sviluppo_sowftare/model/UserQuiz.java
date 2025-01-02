@@ -14,7 +14,7 @@ public class UserQuiz {
 
     @NonNull
     private int id;
-    private Quiz quiz;
-    private User user;
+    private int quizId;
+    private int userId;
     private LocalDateTime completedAt;
 }
