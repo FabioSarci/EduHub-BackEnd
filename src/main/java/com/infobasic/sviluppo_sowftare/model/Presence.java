@@ -1,9 +1,6 @@
 package com.infobasic.sviluppo_sowftare.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,8 +11,7 @@ public class Presence {
 
     @NonNull
     private int id;
-    private Lesson lesson;
-    private User user;
-    private LocalDateTime date;
+    private int lessonId;
+    private int userId;
     private boolean isPresent;
 }
