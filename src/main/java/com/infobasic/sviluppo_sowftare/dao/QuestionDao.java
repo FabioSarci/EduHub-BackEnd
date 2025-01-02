@@ -21,7 +21,7 @@ public class QuestionDao extends GenericDao<Question, Integer>{
 
     @Override
     protected String getTableName() {
-        return "quiz";
+        return "question";
     }
 
     @Override

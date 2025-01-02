@@ -20,6 +20,10 @@ public class Main {
         LessonController lessonController = new LessonController();
         PresenceController presenceController = new PresenceController();
         QuizController quizController = new QuizController();
+        QuestionController questionController = new QuestionController();
+
+
+
 
         authController.loginRoutes(app);
         userController.userRoutes(app);
@@ -30,6 +34,7 @@ public class Main {
         lessonController.LessonRoutes(app);
         presenceController.presenceRoutes(app);
         quizController.quizRoutes(app);
+        questionController.questionRoutes(app);
 
     }
 }
