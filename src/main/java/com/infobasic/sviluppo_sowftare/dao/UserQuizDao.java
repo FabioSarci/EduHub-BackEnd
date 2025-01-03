@@ -64,11 +64,11 @@ public class UserQuizDao extends GenericDao<UserQuiz,Integer>{
             PreparedStatement ps = connection.prepareStatement(querySQL);
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
-            List<UserQuiz> presencesByUserIdList = new ArrayList<>();
+            List<UserQuiz> userQuizByUserIdList = new ArrayList<>();
             while(rs.next()){
-                presencesByUserIdList.add(mapResultSetToEntity(rs));
+                userQuizByUserIdList.add(mapResultSetToEntity(rs));
             }
-            return presencesByUserIdList;
+            return userQuizByUserIdList;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -83,11 +83,11 @@ public class UserQuizDao extends GenericDao<UserQuiz,Integer>{
             PreparedStatement ps = connection.prepareStatement(querySQL);
             ps.setInt(1, quizId);
             ResultSet rs = ps.executeQuery();
-            List<UserQuiz> presencesByUserIdList = new ArrayList<>();
+            List<UserQuiz> userQuizByQuizIdList = new ArrayList<>();
             while(rs.next()){
-                presencesByUserIdList.add(mapResultSetToEntity(rs));
+                userQuizByQuizIdList.add(mapResultSetToEntity(rs));
             }
-            return presencesByUserIdList;
+            return userQuizByQuizIdList;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

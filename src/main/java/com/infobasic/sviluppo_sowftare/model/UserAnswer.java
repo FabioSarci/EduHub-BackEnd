@@ -12,7 +12,7 @@ public class UserAnswer {
 
     @NonNull
     private int id;
-    private Question question;
-    private Answer answer;
-    private User user;
+    private int questionId;
+    private int userQuizId;
+    private int answerId;
 }

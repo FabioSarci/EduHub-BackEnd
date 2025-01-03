@@ -23,6 +23,7 @@ public class Main {
         QuestionController questionController = new QuestionController();
         AnswerController answerController = new AnswerController();
         UserQuizController userQuizController = new UserQuizController();
+        UserAnswerController userAnswerController = new UserAnswerController();
 
 
 
@@ -39,6 +40,7 @@ public class Main {
         questionController.questionRoutes(app);
         answerController.answerRoutes(app);
         userQuizController.userQuizRoutes(app);
+        userAnswerController.userAnswerRoutes(app);
 
     }
 }

@@ -5,7 +5,6 @@ import com.infobasic.sviluppo_sowftare.model.UserQuiz;
 import com.infobasic.sviluppo_sowftare.service.UserQuizService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import org.eclipse.jetty.io.Connection;
 
 import java.util.List;
 
