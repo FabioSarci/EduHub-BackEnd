@@ -14,7 +14,7 @@ public class UserQuizService {
     }
 
     public UserQuiz editUserQuiz(UserQuiz userQuiz){
-        return userQuizDao.create(userQuiz);
+        return userQuizDao.update(userQuiz);
     }
 
     public UserQuiz findUserQuizById(int id){
@@ -27,5 +27,13 @@ public class UserQuizService {
 
     public void deleteUserQuizById(int id){
         userQuizDao.deleteById(id);
+    }
+
+    public List<UserQuiz> findUserQuizByUserId(int userId){
+        return userQuizDao.findUserQuizByUserId(userId);
+    }
+
+    public List<UserQuiz> findUserQuizByQuizId(int userId){
+        return userQuizDao.findUserQuizByQuizId(userId);
     }
 }

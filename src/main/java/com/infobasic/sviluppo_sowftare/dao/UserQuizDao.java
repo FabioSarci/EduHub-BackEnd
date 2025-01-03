@@ -1,5 +1,6 @@
 package com.infobasic.sviluppo_sowftare.dao;
 
+import com.infobasic.sviluppo_sowftare.model.Presence;
 import com.infobasic.sviluppo_sowftare.model.UserQuiz;
 
 import java.sql.PreparedStatement;
@@ -7,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserQuizDao extends GenericDao<UserQuiz,Integer>{
     @Override
@@ -51,5 +54,43 @@ public class UserQuizDao extends GenericDao<UserQuiz,Integer>{
     @Override
     protected void setGeneratedId(UserQuiz userQuiz, int id) {
         userQuiz.setId(id);
+    }
+
+    public List<UserQuiz> findUserQuizByUserId(int userId){
+
+        String querySQL = "SELECT * from " + getTableName() + " WHERE userid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            List<UserQuiz> presencesByUserIdList = new ArrayList<>();
+            while(rs.next()){
+                presencesByUserIdList.add(mapResultSetToEntity(rs));
+            }
+            return presencesByUserIdList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<UserQuiz> findUserQuizByQuizId(int quizId){
+
+        String querySQL = "SELECT * from " + getTableName() + " WHERE quizid = ? ";
+
+        try{
+            PreparedStatement ps = connection.prepareStatement(querySQL);
+            ps.setInt(1, quizId);
+            ResultSet rs = ps.executeQuery();
+            List<UserQuiz> presencesByUserIdList = new ArrayList<>();
+            while(rs.next()){
+                presencesByUserIdList.add(mapResultSetToEntity(rs));
+            }
+            return presencesByUserIdList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
