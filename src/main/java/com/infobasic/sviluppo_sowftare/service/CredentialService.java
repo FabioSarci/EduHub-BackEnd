@@ -2,8 +2,11 @@ package com.infobasic.sviluppo_sowftare.service;
 
 import com.infobasic.sviluppo_sowftare.dao.CredentialDao;
 import com.infobasic.sviluppo_sowftare.model.Credential;
+import com.infobasic.sviluppo_sowftare.model.User;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class CredentialService {
 
@@ -27,6 +30,11 @@ public class CredentialService {
 
     public long countCredentials(){
         return credentialDao.count();
+    }
+
+    public User findCredentialUserByEmail(String email) throws SQLException {
+
+        return credentialDao.findCredentialUserByEmail(email);
     }
 
 }

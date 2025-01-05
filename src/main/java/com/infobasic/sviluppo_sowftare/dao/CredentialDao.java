@@ -6,8 +6,13 @@ import com.infobasic.sviluppo_sowftare.model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CredentialDao extends GenericDao<Credential, Integer> {
+
+    UserDao userDao = new UserDao();
 
 
     @Override
@@ -69,6 +74,21 @@ public class CredentialDao extends GenericDao<Credential, Integer> {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Errore durante la ricerca per ID", e);
+        }
+        return null;
+    }
+
+    public User findCredentialUserByEmail(String email) throws SQLException {
+        String query = "SELECT u.id, u.name, u.surname, u.birthdate, u.idtype FROM credential c INNER JOIN users u ON c.userid = u.id WHERE c.email = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, email);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    return userDao.mapResultSetToEntity(rs);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return null;
     }

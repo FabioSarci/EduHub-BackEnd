@@ -17,13 +17,13 @@ public class AuthController {
 
     public void login(Context ctx) {
         try {
-            String email = ctx.formParam("email");
-            String password = ctx.formParam("password");
+            Credential formCredential = ctx.bodyAsClass(Credential.class);
 
-            Credential credential = userService.findCredentialByEmail(email);
+
+            Credential credential = userService.findCredentialByEmail(formCredential.getEmail());
 
             if(credential != null){
-                if (credential.getPassword().equals(password)) {
+                if (credential.getPassword().equals(formCredential.getPassword())) {
                     String token = JwtUtil.generateToken(credential.getEmail());
                     ctx.json(new TokenResponse(token));
                 } else {

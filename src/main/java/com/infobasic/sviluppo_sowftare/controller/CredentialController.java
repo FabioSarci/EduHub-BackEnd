@@ -2,10 +2,12 @@ package com.infobasic.sviluppo_sowftare.controller;
 
 import com.infobasic.sviluppo_sowftare.auth.middleware.JwtAuthMiddleware;
 import com.infobasic.sviluppo_sowftare.model.Credential;
+import com.infobasic.sviluppo_sowftare.model.User;
 import com.infobasic.sviluppo_sowftare.service.CredentialService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class CredentialController {
@@ -32,6 +34,11 @@ public class CredentialController {
         //Find all Credential
         app.before("/credentials", ctx -> new JwtAuthMiddleware().handle(ctx));
         app.get("/credentials", this::findAllCredentials);
+
+        app.get("/check", ctx -> new JwtAuthMiddleware().handle(ctx));
+
+        app.before("/credential-user-by-email", ctx -> new JwtAuthMiddleware().handle(ctx));
+        app.get("/credential-user-by-email", this::findCredentialUserByEmail);
     }
 
     private void registerCredential(Context ctx){
@@ -55,10 +62,6 @@ public class CredentialController {
 
     private void getCredentialByEmail(Context ctx){
         String email = ctx.attribute("email");
-        if (email == null) {
-            ctx.status(401).result("Unauthorized");
-            return;
-        }
         try {
             Credential credential = credentialService.findCredentialByEmail(email);
             ctx.status(200).json(credential);
@@ -85,6 +88,20 @@ public class CredentialController {
         }
         List<Credential> list = credentialService.findAllCredentials();
         ctx.status(200).json(list);
+    }
+
+    private void findCredentialUserByEmail(Context ctx) throws SQLException {
+        String email = ctx.attribute("email");
+        if (email == null) {
+            ctx.status(401).result("Unauthorized");
+            return;
+        }
+        try{
+            User user = credentialService.findCredentialUserByEmail(email);
+            ctx.status(200).json(user);
+        } catch (SQLException e) {
+            ctx.status(404).result("User Not Found");
+        }
     }
 
 

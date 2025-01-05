@@ -13,13 +13,30 @@ public class UserDao extends GenericDao<User, Integer> {
 
     @Override
     protected User mapResultSetToEntity(ResultSet rs) throws SQLException {
-        return new User(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getString("surname"),
-                LocalDate.parse(rs.getString("birthdate")),
-                UserType.valueOf(rs.getString("idtype"))
-        );
+
+        String roleQuery = "SELECT name FROM usertype WHERE id = ?";
+
+        try{
+            PreparedStatement psRole = connection.prepareStatement(roleQuery);
+            psRole.setInt(1,rs.getInt("idtype"));
+            ResultSet rsRole = psRole.executeQuery();
+
+
+            if(rsRole.next()){
+                String role = rsRole.getString("name");
+                return new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        LocalDate.parse(rs.getString("birthdate")),
+                        UserType.valueOf(role)
+                );
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     @Override

@@ -39,11 +39,6 @@ public class UserController {
     }
 
     private void registerUser(Context ctx){
-        String email = ctx.attribute("email");
-        if (email == null) {
-            ctx.status(401).result("Unauthorized");
-            return;
-        }
         User user = userService.addUser(ctx.bodyAsClass(User.class));
         ctx.status(200).json(user);
     }
