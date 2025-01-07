@@ -17,6 +17,7 @@ public class File {
     String filename;
     String path;
     int userId;
+    int courseId;
     String title;
     LocalDate createdAt;
     LocalDate updatedAt;

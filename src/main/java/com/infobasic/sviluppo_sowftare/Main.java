@@ -20,6 +20,7 @@ public class Main {
         AnswerController answerController = new AnswerController();
         UserQuizController userQuizController = new UserQuizController();
         UserAnswerController userAnswerController = new UserAnswerController();
+        FileController fileController = new FileController();
 
         try{
             Javalin app = Javalin.create(config -> {
@@ -43,6 +44,7 @@ public class Main {
             answerController.answerRoutes(app);
             userQuizController.userQuizRoutes(app);
             userAnswerController.userAnswerRoutes(app);
+            fileController.fileRoutes(app);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
