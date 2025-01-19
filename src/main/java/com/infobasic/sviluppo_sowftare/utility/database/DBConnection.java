@@ -8,11 +8,11 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
+    //
     private static DBConnection instance;
     private Connection connection;
 
     Dotenv dotenv = Dotenv.load();
-
     private final String URL = dotenv.get("URL");
     private final String userDB = dotenv.get("USER_DB");
     private final String pwdDB = dotenv.get("PWD_DB");
