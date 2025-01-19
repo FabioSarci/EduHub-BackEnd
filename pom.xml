@@ -54,7 +54,7 @@
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.0</version><!-- Usa una versione compatibile con il tuo progetto -->
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
