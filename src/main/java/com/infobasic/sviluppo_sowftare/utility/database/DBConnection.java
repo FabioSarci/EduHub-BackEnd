@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
+    //
     private static DBConnection instance;
     private Connection connection;
 
