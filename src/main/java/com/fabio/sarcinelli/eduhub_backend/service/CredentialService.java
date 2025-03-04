@@ -40,7 +40,7 @@ public class CredentialService {
         
             existingCredential.setEmail(updatedCredential.getEmail());
             existingCredential.setPassword(updatedCredential.getPassword());
-            existingCredential.setUser(updatedCredential.getUser());
+            existingCredential.setUsers(updatedCredential.getUsers());
 
             return credentialRepository.save(existingCredential);
         } else {

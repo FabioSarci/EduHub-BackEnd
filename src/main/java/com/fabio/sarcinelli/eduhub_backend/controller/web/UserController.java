@@ -2,6 +2,7 @@ package com.fabio.sarcinelli.eduhub_backend.controller.web;
 
 import java.util.List;
 
+import com.fabio.sarcinelli.eduhub_backend.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fabio.sarcinelli.eduhub_backend.model.User;
 import com.fabio.sarcinelli.eduhub_backend.service.UserService;
 
 @RestController
@@ -25,30 +25,30 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> findAll() {
+    public List<Users> findAll() {
         return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
-        User user = userService.findById(id).orElse(null);
+    public ResponseEntity<Users> findById(@PathVariable Long id) {
+        Users users = userService.findById(id).orElse(null);
 
-        if (user != null) {
-            return ResponseEntity.ok(user);
+        if (users != null) {
+            return ResponseEntity.ok(users);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody User user) {
-        User newUser = userService.save(user);
-        return ResponseEntity.ok(newUser);
+    public ResponseEntity<Users> save(@RequestBody Users users) {
+        Users newUsers = userService.save(users);
+        return ResponseEntity.ok(newUsers);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
-        User updatedStudent = userService.update(user);
+    public ResponseEntity<Users> update(@PathVariable Long id, @RequestBody Users users) {
+        Users updatedStudent = userService.update(users);
 
         if (updatedStudent != null) {
             return ResponseEntity.ok(updatedStudent);
@@ -64,4 +64,5 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
+
 }

@@ -25,6 +25,6 @@ public class Presence {
     private Lesson lesson;
 
     @ManyToOne
-    private User user;
+    private Users users;
     
 }

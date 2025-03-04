@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fabio.sarcinelli.eduhub_backend.util.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,6 +29,7 @@ public class User {
 
     private String name;
     private String surname;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
     private Role role;
 
@@ -37,15 +38,6 @@ public class User {
 
     @ManyToMany
     private List<Course> courses = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<com.fabio.sarcinelli.eduhub_backend.model.Notification> notifications = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Presence> presences = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<UserQuiz> quizzes = new ArrayList<>();
 
 
 }

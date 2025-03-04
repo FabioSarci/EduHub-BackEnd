@@ -38,7 +38,7 @@ public class PresenceService {
             Presence existingPresence = optionalPresence.get();
 
             existingPresence.setPresent(updatedPresence.isPresent());
-            existingPresence.setUser(updatedPresence.getUser());
+            existingPresence.setUsers(updatedPresence.getUsers());
             existingPresence.setLesson(updatedPresence.getLesson());
 
             return presenceRepository.save(existingPresence);

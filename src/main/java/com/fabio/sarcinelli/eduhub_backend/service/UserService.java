@@ -3,9 +3,9 @@ package com.fabio.sarcinelli.eduhub_backend.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.fabio.sarcinelli.eduhub_backend.model.Users;
 import org.springframework.stereotype.Service;
 
-import com.fabio.sarcinelli.eduhub_backend.model.User;
 import com.fabio.sarcinelli.eduhub_backend.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,34 +20,34 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User save(User user) {
+    public Users save(Users users) {
         try {
             log.info("Saving user");
-            return userRepository.save(user);
+            return userRepository.save(users);
         } catch (Exception e) {
-            log.error("Saving user failed: {} - user: {}", e, user);
+            log.error("Saving user failed: {} - user: {}", e, users);
             return null;
         }
     }
 
-    public User update(User updatedUser) {
-        log.info("Updating user with ID: {}", updatedUser.getId());
+    public Users update(Users updatedUsers) {
+        log.info("Updating user with ID: {}", updatedUsers.getId());
 
-        Optional<User> optionalUser = userRepository.findById(updatedUser.getId());
+        Optional<Users> optionalUser = userRepository.findById(updatedUsers.getId());
         if (optionalUser.isPresent()) {
-            User existingUser = optionalUser.get();
+            Users existingUsers = optionalUser.get();
 
-            existingUser.setName(updatedUser.getName());
-            existingUser.setSurname(updatedUser.getSurname());
-            existingUser.setBirthDate(updatedUser.getBirthDate());
-            existingUser.setRole(updatedUser.getRole());
-            existingUser.setCredential(updatedUser.getCredential());
-            existingUser.setCourses(updatedUser.getCourses());
+            existingUsers.setName(updatedUsers.getName());
+            existingUsers.setSurname(updatedUsers.getSurname());
+            existingUsers.setBirthDate(updatedUsers.getBirthDate());
+            existingUsers.setRole(updatedUsers.getRole());
+            existingUsers.setCredential(updatedUsers.getCredential());
+            existingUsers.setCourses(updatedUsers.getCourses());
 
-            return userRepository.save(existingUser);
+            return userRepository.save(existingUsers);
         } else {
-            log.error("User with ID {} not found.", updatedUser.getId());
-            throw new IllegalArgumentException("User with ID " + updatedUser.getId() + " not found.");
+            log.error("User with ID {} not found.", updatedUsers.getId());
+            throw new IllegalArgumentException("User with ID " + updatedUsers.getId() + " not found.");
         }
     }
     
@@ -60,16 +60,16 @@ public class UserService {
         }
     }
 
-    public void delete(User user) {
+    public void delete(Users users) {
         try {
-            log.info("Deleting user: {}", user);
-            userRepository.delete(user);
+            log.info("Deleting user: {}", users);
+            userRepository.delete(users);
         } catch (Exception e) {
-            log.error("Deleting user failed: {} - user: {}", e, user);
+            log.error("Deleting user failed: {} - user: {}", e, users);
         }
     }
 
-    public Optional<User> findById(Long id) {
+    public Optional<Users> findById(Long id) {
         log.info("Finding user by ID: {}", id);
         try{
             return userRepository.findById(id);
@@ -79,7 +79,7 @@ public class UserService {
         }
     }
 
-    public List<User> findAll() {
+    public List<Users> findAll() {
         log.info("Finding all users");
         try {
             return userRepository.findAll();

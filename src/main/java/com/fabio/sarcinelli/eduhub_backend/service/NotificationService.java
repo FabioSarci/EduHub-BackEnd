@@ -39,7 +39,7 @@ public class NotificationService {
 
             existingNotification.setBody(updatedNotification.getBody());
             existingNotification.setTitle(updatedNotification.getTitle());
-            existingNotification.setUser(updatedNotification.getUser());
+            existingNotification.setUsers(updatedNotification.getUsers());
 
             return notificationRepository.save(existingNotification);
         } else {

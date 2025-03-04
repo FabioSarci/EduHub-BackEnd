@@ -34,3 +34,4 @@ build/
 
 .env
 persistence.xml
+app.log

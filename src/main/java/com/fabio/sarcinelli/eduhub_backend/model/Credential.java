@@ -23,6 +23,6 @@ public class Credential {
     private String password;
 
     @OneToOne(mappedBy = "credential")
-    private User user;
+    private Users users;
     
 }

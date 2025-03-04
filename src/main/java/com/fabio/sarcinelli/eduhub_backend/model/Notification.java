@@ -1,10 +1,10 @@
 package com.fabio.sarcinelli.eduhub_backend.model;
 
-import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +23,7 @@ public class Notification {
     private String title;
     private String body;
 
-
     @ManyToOne
-    private User user;
+    private Users users;
     
 }

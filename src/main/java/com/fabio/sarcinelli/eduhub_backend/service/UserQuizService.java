@@ -39,7 +39,7 @@ public class UserQuizService {
 
             existingUserQuiz.setAnswers(updatedUserQuiz.getAnswers());
             existingUserQuiz.setCompletedAt(updatedUserQuiz.getCompletedAt());
-            existingUserQuiz.setUser(updatedUserQuiz.getUser());
+            existingUserQuiz.setUsers(updatedUserQuiz.getUsers());
             existingUserQuiz.setQuiz(updatedUserQuiz.getQuiz());
 
             return userQuizRepository.save(existingUserQuiz);
