@@ -20,16 +20,17 @@ public class LessonService {
         this.lessonRepository = lessonRepository;
     }
 
-    public void save(Lesson lesson) {
+    public Lesson save(Lesson lesson) {
         try {
             log.info("Saving lesson");
-            lessonRepository.save(lesson);
+            return lessonRepository.save(lesson);
         } catch (Exception e) {
             log.error("Saving lesson failed: {} - lesson: {}", e, lesson);
+            return null;
         }
     }
 
-    public void update(Lesson updatedLesson) {
+    public Lesson update(Lesson updatedLesson) {
         log.info("Updating lesson with ID: {}", updatedLesson.getId());
 
         Optional<Lesson> optionalLesson = lessonRepository.findById(updatedLesson.getId());
@@ -40,7 +41,7 @@ public class LessonService {
             existingLesson.setDescription(updatedLesson.getDescription());
             existingLesson.setTopic(updatedLesson.getTopic());
 
-            lessonRepository.save(existingLesson);
+            return lessonRepository.save(existingLesson);
         } else {
             log.error("Lesson with ID {} not found.", updatedLesson.getId());
             throw new IllegalArgumentException("Lesson with ID " + updatedLesson.getId() + " not found.");

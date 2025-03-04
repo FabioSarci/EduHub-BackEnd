@@ -20,16 +20,17 @@ public class PresenceService {
         this.presenceRepository = presenceRepository;
     }
 
-    public void save(Presence presence) {
+    public Presence save(Presence presence) {
         try {
             log.info("Saving presence");
-            presenceRepository.save(presence);
+            return presenceRepository.save(presence);
         } catch (Exception e) {
             log.error("Saving presence failed: {} - presence: {}", e, presence);
+            return null;
         }
     }
 
-    public void update(Presence updatedPresence) {
+    public Presence update(Presence updatedPresence) {
         log.info("Updating presence with ID: {}", updatedPresence.getId());
 
         Optional<Presence> optionalPresence = presenceRepository.findById(updatedPresence.getId());
@@ -40,7 +41,7 @@ public class PresenceService {
             existingPresence.setUser(updatedPresence.getUser());
             existingPresence.setLesson(updatedPresence.getLesson());
 
-            presenceRepository.save(existingPresence);
+            return presenceRepository.save(existingPresence);
         } else {
             log.error("Presence with ID {} not found.", updatedPresence.getId());
             throw new IllegalArgumentException("Presence with ID " + updatedPresence.getId() + " not found.");

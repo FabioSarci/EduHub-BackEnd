@@ -20,16 +20,17 @@ public class QuizService {
         this.quizRepository = quizRepository;
     }
 
-    public void save(Quiz quiz) {
+    public Quiz save(Quiz quiz) {
         try {
             log.info("Saving quiz");
-            quizRepository.save(quiz);
+            return quizRepository.save(quiz);
         } catch (Exception e) {
             log.error("Saving quiz failed: {} - quiz: {}", e, quiz);
+            return null;
         }
     }
 
-    public void update(Quiz updatedQuiz) {
+    public Quiz update(Quiz updatedQuiz) {
         log.info("Updating quiz with ID: {}", updatedQuiz.getId());
 
         Optional<Quiz> optionalQuiz = quizRepository.findById(updatedQuiz.getId());
@@ -41,7 +42,7 @@ public class QuizService {
             existingQuiz.setQuestions(updatedQuiz.getQuestions());
             existingQuiz.setCourse(updatedQuiz.getCourse());
 
-            quizRepository.save(existingQuiz);
+            return quizRepository.save(existingQuiz);
         } else {
             log.error("Quiz with ID {} not found.", updatedQuiz.getId());
             throw new IllegalArgumentException("Quiz with ID " + updatedQuiz.getId() + " not found.");

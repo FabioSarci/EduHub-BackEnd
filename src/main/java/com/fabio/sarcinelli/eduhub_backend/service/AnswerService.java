@@ -20,16 +20,17 @@ public class AnswerService {
         this.answerRepository = answerRepository;
     }
 
-    public void save(Answer answer) {
+    public Answer save(Answer answer) {
         try {
             log.info("Saving answer");
-            answerRepository.save(answer);
+            return answerRepository.save(answer);
         } catch (Exception e) {
             log.error("Saving answer failed: {} - answer: {}", e, answer);
+            return null;
         }
     }
 
-    public void update(Answer updatedAnswer) {
+    public Answer update(Answer updatedAnswer) {
         log.info("Updating answer with ID: {}", updatedAnswer.getId());
 
         Optional<Answer> optionalAnswer = answerRepository.findById(updatedAnswer.getId());
@@ -40,7 +41,7 @@ public class AnswerService {
             existingAnswer.setCorrect(updatedAnswer.isCorrect());
             existingAnswer.setQuestion(updatedAnswer.getQuestion());
 
-            answerRepository.save(existingAnswer);
+            return answerRepository.save(existingAnswer);
         } else {
             log.error("Answer with ID {} not found.", updatedAnswer.getId());
             throw new IllegalArgumentException("Answer with ID " + updatedAnswer.getId() + " not found.");

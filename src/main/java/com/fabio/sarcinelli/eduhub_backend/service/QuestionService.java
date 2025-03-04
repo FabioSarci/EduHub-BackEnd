@@ -20,16 +20,17 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    public void save(Question question) {
+    public Question save(Question question) {
         try {
             log.info("Saving question");
-            questionRepository.save(question);
+            return questionRepository.save(question);
         } catch (Exception e) {
             log.error("Saving question failed: {} - question: {}", e, question);
+            return null;
         }
     }
 
-    public void update(Question updatedQuestion) {
+    public Question update(Question updatedQuestion) {
         log.info("Updating question with ID: {}", updatedQuestion.getId());
 
         Optional<Question> optionalQuestion = questionRepository.findById(updatedQuestion.getId());
@@ -40,7 +41,7 @@ public class QuestionService {
             existingQuestion.setText(updatedQuestion.getText());
             existingQuestion.setQuiz(updatedQuestion.getQuiz());
 
-            questionRepository.save(existingQuestion);
+            return questionRepository.save(existingQuestion);
         } else {
             log.error("Question with ID {} not found.", updatedQuestion.getId());
             throw new IllegalArgumentException("Question with ID " + updatedQuestion.getId() + " not found.");

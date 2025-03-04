@@ -20,16 +20,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void save(User user) {
+    public User save(User user) {
         try {
             log.info("Saving user");
-            userRepository.save(user);
+            return userRepository.save(user);
         } catch (Exception e) {
             log.error("Saving user failed: {} - user: {}", e, user);
+            return null;
         }
     }
 
-    public void update(User updatedUser) {
+    public User update(User updatedUser) {
         log.info("Updating user with ID: {}", updatedUser.getId());
 
         Optional<User> optionalUser = userRepository.findById(updatedUser.getId());
@@ -43,7 +44,7 @@ public class UserService {
             existingUser.setCredential(updatedUser.getCredential());
             existingUser.setCourses(updatedUser.getCourses());
 
-            userRepository.save(existingUser);
+            return userRepository.save(existingUser);
         } else {
             log.error("User with ID {} not found.", updatedUser.getId());
             throw new IllegalArgumentException("User with ID " + updatedUser.getId() + " not found.");

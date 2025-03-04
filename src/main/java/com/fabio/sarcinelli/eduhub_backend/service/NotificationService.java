@@ -20,16 +20,17 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    public void save(Notification notification) {
+    public Notification save(Notification notification) {
         try {
             log.info("Saving notification");
-            notificationRepository.save(notification);
+            return notificationRepository.save(notification);
         } catch (Exception e) {
             log.error("Saving notification failed: {} - notification: {}", e, notification);
+            return null;
         }
     }
 
-    public void update(Notification updatedNotification) {
+    public Notification update(Notification updatedNotification) {
         log.info("Updating notification with ID: {}", updatedNotification.getId());
 
         Optional<Notification> optionalNotification = notificationRepository.findById(updatedNotification.getId());
@@ -40,7 +41,7 @@ public class NotificationService {
             existingNotification.setTitle(updatedNotification.getTitle());
             existingNotification.setUser(updatedNotification.getUser());
 
-            notificationRepository.save(existingNotification);
+            return notificationRepository.save(existingNotification);
         } else {
             log.error("Notification with ID {} not found.", updatedNotification.getId());
             throw new IllegalArgumentException("Notification with ID " + updatedNotification.getId() + " not found.");
