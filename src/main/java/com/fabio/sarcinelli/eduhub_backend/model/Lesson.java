@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -28,6 +29,7 @@ public class Lesson {
 
     private String topic;
     private String description;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
 
     @ManyToOne

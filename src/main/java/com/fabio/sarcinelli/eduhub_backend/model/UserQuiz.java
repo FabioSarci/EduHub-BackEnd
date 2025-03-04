@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -26,6 +27,7 @@ public class UserQuiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime completedAt;
 
     @ManyToOne
