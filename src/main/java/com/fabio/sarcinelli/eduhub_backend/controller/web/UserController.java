@@ -3,6 +3,7 @@ package com.fabio.sarcinelli.eduhub_backend.controller.web;
 import java.util.List;
 
 import com.fabio.sarcinelli.eduhub_backend.model.Users;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fabio.sarcinelli.eduhub_backend.service.UserService;
 
+
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -40,6 +42,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/find-by-email/{email}")
+    public ResponseEntity<Users> findByEmail(@PathVariable String email) {
+        Users users = userService.findUserByEmail(email);
+
+        if (users != null) {
+            return ResponseEntity.ok(users);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+
     @PostMapping
     public ResponseEntity<Users> save(@RequestBody Users users) {
         Users newUsers = userService.save(users);
@@ -58,7 +72,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<String> deleteStudentById(@PathVariable Long id) {
         userService.deleteById(id);
         String message = "Studente con ID " + id + " eliminato con successo.";
 

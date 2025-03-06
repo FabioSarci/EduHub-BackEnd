@@ -3,9 +3,11 @@ package com.fabio.sarcinelli.eduhub_backend.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.fabio.sarcinelli.eduhub_backend.model.Credential;
 import com.fabio.sarcinelli.eduhub_backend.model.Users;
 import org.springframework.stereotype.Service;
 
+import com.fabio.sarcinelli.eduhub_backend.repository.CredentialRepository;
 import com.fabio.sarcinelli.eduhub_backend.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
     
     private final UserRepository userRepository;
+    private final CredentialRepository credentialRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, CredentialRepository credentialRepository) {
         this.userRepository = userRepository;
+        this.credentialRepository = credentialRepository;
     }
 
     public Users save(Users users) {
@@ -88,4 +92,18 @@ public class UserService {
             return List.of();
         }
     }   
+
+    public Users findUserByEmail(String email){
+        log.info("Finding user by credential: {}", email);
+        Credential credential = credentialRepository.findByEmail(email);
+        try {
+            if (credential == null) {
+                return null;
+            }
+            return userRepository.findByCredential(credential);
+        } catch (Exception e) {
+            log.error("Finding user by credential failed: {} - credential: {}", e, credential);
+            return null;
+        }
+    }
 }

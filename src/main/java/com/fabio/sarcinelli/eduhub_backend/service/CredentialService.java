@@ -3,6 +3,8 @@ package com.fabio.sarcinelli.eduhub_backend.service;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.SneakyThrows;
+
 import org.springframework.stereotype.Service;
 
 import com.fabio.sarcinelli.eduhub_backend.model.Credential;
@@ -80,5 +82,11 @@ public class CredentialService {
             log.error("Finding all credentials failed: {}", e);
             return List.of();
         }
+    }
+
+    @SneakyThrows
+    public Credential findByEmail(String email){
+
+        return credentialRepository.findByEmail(email);
     }
 }
