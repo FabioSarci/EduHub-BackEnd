@@ -89,4 +89,16 @@ public class CredentialService {
 
         return credentialRepository.findByEmail(email);
     }
+
+    public Optional<Credential> findByUsername(String username) {
+        return credentialRepository.findByUsername(username);
+    }
+
+    public Boolean existsByUsername(String username) {
+        return credentialRepository.existsByUsername(username);
+    }
+
+    public Boolean existsByEmail(String email) {
+        return credentialRepository.existsByEmail(email);
+    }
 }
