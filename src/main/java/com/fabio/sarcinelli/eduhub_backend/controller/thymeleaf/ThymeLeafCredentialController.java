@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,14 +17,32 @@ public class ThymeLeafCredentialController {
     @Autowired
     private CredentialService credentialService;
 
-    @GetMapping("/index")
-    public String showCredentialForm(Model model) {
-        model.addAttribute("credential",  new Credential());
+    @GetMapping({"/", "/index"})
+    public String newCredentialForm(Model model) {
+        model.addAttribute("credential", new Credential());
+        model.addAttribute("method", "post");
+        model.addAttribute("action", "/credential");
         return "credential-form";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editCredential(@PathVariable Long id, Model model) {
+        Credential credential = credentialService.findById(id).orElse(new Credential());
+        model.addAttribute("credential", credential);
+        model.addAttribute("method", "put");
+        model.addAttribute("action", "/credential/update/" + id);
+        return "credential-form";
+    }
 
-    @GetMapping("/{id}")
+    @GetMapping("/list")
+    public String listCredentials(Model model) {
+        List<Credential> credentials = credentialService.findAll();
+        model.addAttribute("credentials", credentials);
+        return "credential-list";
+    }
+
+
+    @GetMapping("/find/{id}")
     public String findById(@PathVariable Long id, Model model) {
         Optional<Credential> credential = credentialService.findById(id);
         model.addAttribute("credential", credential.orElse(null));
@@ -42,6 +61,20 @@ public class ThymeLeafCredentialController {
     public String save(@ModelAttribute Credential credential, Model model) {
         Credential credentialSaved = credentialService.save(credential);
         model.addAttribute("credential", credentialSaved);
-        return "redirect:/credential/" + credentialSaved.getId();
+        return "redirect:/credential/find/" + credentialSaved.getId();
+    }
+
+    @PutMapping("/update/{id}")
+    public String update(@PathVariable Long id, @ModelAttribute Credential credential, Model model) {
+        credential.setId(id);
+        Credential credentialSaved = credentialService.update(credential);
+        model.addAttribute("credential", credentialSaved);
+        return "redirect:/credential/find/" + credentialSaved.getId();
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        credentialService.deleteById(id);
+        return "redirect:/credential/list";
     }
 }
