@@ -24,15 +24,6 @@ public class UserService {
         this.credentialRepository = credentialRepository;
     }
 
-    public Users save(Users users) {
-        try {
-            log.info("Saving user");
-            return userRepository.save(users);
-        } catch (Exception e) {
-            log.error("Saving user failed: {} - user: {}", e, users);
-            return null;
-        }
-    }
 
     public Users update(Users updatedUsers) {
         log.info("Updating user with ID: {}", updatedUsers.getId());
@@ -51,24 +42,6 @@ public class UserService {
         } else {
             log.error("User with ID {} not found.", updatedUsers.getId());
             throw new IllegalArgumentException("User with ID " + updatedUsers.getId() + " not found.");
-        }
-    }
-    
-    public void deleteById(Long id) {
-        try {
-            log.info("Deleting user with ID: {}", id);
-            userRepository.deleteById(id);
-        } catch (Exception e) {
-            log.error("Deleting user failed: {} - user ID: {}", e, id);
-        }
-    }
-
-    public void delete(Users users) {
-        try {
-            log.info("Deleting user: {}", users);
-            userRepository.delete(users);
-        } catch (Exception e) {
-            log.error("Deleting user failed: {} - user: {}", e, users);
         }
     }
 

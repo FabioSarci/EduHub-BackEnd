@@ -48,7 +48,7 @@ public class Credential {
 
 
     @OneToOne(mappedBy = "credential")
-    private Users users;
+    private Users user;
 
 
     public Credential(String username, String email, String password) {

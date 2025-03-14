@@ -1,5 +1,6 @@
 package com.fabio.sarcinelli.eduhub_backend.controller.web;
 
+import com.fabio.sarcinelli.eduhub_backend.dto.request.CredentialAndUserDtoForm;
 import com.fabio.sarcinelli.eduhub_backend.model.Credential;
 import com.fabio.sarcinelli.eduhub_backend.service.CredentialService;
 
@@ -74,10 +75,10 @@ public class CredentialController {
     }
 
     @PostMapping
-    public ResponseEntity<Credential> save(@RequestBody Credential credential){
+    public ResponseEntity<CredentialAndUserDtoForm> save(@RequestBody CredentialAndUserDtoForm credential){
 
-        Credential credentialSaved = credentialService.save(credential);
-        return ResponseEntity.ok(credentialSaved);
+        CredentialAndUserDtoForm credentialSaved = credentialService.save(credential);
+        return ResponseEntity.ok().body(credentialSaved);
     }
 
     @PutMapping
