@@ -39,6 +39,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   * Esegue il filtro per ogni richiesta HTTP, verificando il token JWT.
   */
   @Override
+  @SuppressWarnings("null")
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     try {

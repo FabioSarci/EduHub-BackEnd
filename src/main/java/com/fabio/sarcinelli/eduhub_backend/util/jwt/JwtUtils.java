@@ -31,6 +31,7 @@ public class JwtUtils {
   /**
    * Genera un token JWT basato sull'utente autenticato.
    */
+  @SuppressWarnings("deprecation")
   public String generateJwtToken(Authentication authentication) {
 
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -43,10 +44,12 @@ public class JwtUtils {
         .compact();
   }
 
+  @SuppressWarnings("deprecation")
   public String getUserNameFromJwtToken(String token) {
     return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
   }
 
+  @SuppressWarnings("deprecation")
   public boolean validateJwtToken(String authToken) {
     try {
       Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
