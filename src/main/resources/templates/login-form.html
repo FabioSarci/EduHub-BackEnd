@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+        <h2 class="text-2xl font-bold mb-4">Login</h2>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="mb-4">
+                <label class="block text-gray-700">Username:</label>
+                <input type="text" id="username" name="username" class="w-full border p-2 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Password:</label>
+                <input type="password" id="password" name="password" class="w-full border p-2 rounded" required>
+            </div>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                Login
+            </button>
+        </form>
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+
+            const response = await fetch('/thymeleaf/auth/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                
+                localStorage.setItem('jwt', data.token);
+                window.location.href = '/credential/list?token=' + data.token;
+            } else {
+                alert('Login failed. Please check your credentials and try again.');
+            }
+        }
+    </script>
+</body>
+</html>

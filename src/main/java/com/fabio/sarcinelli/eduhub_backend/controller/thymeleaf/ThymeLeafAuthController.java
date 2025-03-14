@@ -1,4 +1,4 @@
-package com.fabio.sarcinelli.eduhub_backend.controller.web.auth;
+package com.fabio.sarcinelli.eduhub_backend.controller.thymeleaf;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,11 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fabio.sarcinelli.eduhub_backend.dto.request.SigninRequest;
 import com.fabio.sarcinelli.eduhub_backend.dto.request.SignupRequest;
@@ -31,14 +32,13 @@ import com.fabio.sarcinelli.eduhub_backend.util.services.UserDetailsImpl;
 
 import jakarta.validation.Valid;
 
-
 /**
  * Controller per la gestione dell'autenticazione e della registrazione.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@Controller
+@RequestMapping("/thymeleaf/auth")
+public class ThymeLeafAuthController {
   @Autowired
   AuthenticationManager authenticationManager;
 
@@ -55,14 +55,13 @@ public class AuthController {
   PasswordEncoder encoder;
 
   @Autowired
-    JwtUtils jwtUtils;
-
+  JwtUtils jwtUtils;
 
   /**
-  * Gestisce il login degli utenti.
-  */
+   * Gestisce il login degli utenti.
+   */
   @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigninRequest loginRequest) {
+  public String authenticateUser(@Valid @RequestBody SigninRequest loginRequest, Model model) {
 
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -70,18 +69,17 @@ public class AuthController {
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
 
-
     // Ottiene i dettagli dell'utente autenticato
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
     Set<ERole> roles = userDetails.getAuthorities().stream()
         .map(item -> ERole.valueOf(item.getAuthority()))
         .collect(Collectors.toSet());
 
-    return ResponseEntity.ok(new JwtResponse(jwt,
-        userDetails.getId(),
-        userDetails.getUsername(),
-        userDetails.getEmail(),
-        roles));
+    model.addAttribute("jwt", jwt);
+    model.addAttribute("userDetails", userDetails);
+    model.addAttribute("roles", roles);
+
+    return "redirect:/credential/list?token=" + jwt;
   }
 
   /**

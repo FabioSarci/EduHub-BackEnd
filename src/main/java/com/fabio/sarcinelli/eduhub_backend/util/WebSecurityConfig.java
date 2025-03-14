@@ -8,6 +8,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import com.fabio.sarcinelli.eduhub_backend.util.services.UserDetailsServiceImpl;
 
 
 @Configuration
+@EnableWebSecurity
 @EnableMethodSecurity(
     prePostEnabled = true)
 public class WebSecurityConfig {
@@ -84,9 +86,14 @@ public class WebSecurityConfig {
   
           // Permetti l'accesso senza autenticazione agli endpoint di test
           .requestMatchers("/api/test/**").permitAll()
+          .requestMatchers("/thymeleaf/auth/**").permitAll()
   
           // Tutte le altre richieste devono essere autenticate
-          .anyRequest().authenticated();
+          .anyRequest().authenticated()
+          .and()
+          .formLogin()
+          .loginPage("/credential/login")
+          .permitAll();
   
       // Configura il provider di autenticazione
       http.authenticationProvider(authenticationProvider());
