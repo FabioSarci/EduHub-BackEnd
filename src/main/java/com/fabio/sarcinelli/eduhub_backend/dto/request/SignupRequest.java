@@ -1,5 +1,6 @@
 package com.fabio.sarcinelli.eduhub_backend.dto.request;
 
+import java.time.LocalDate;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,4 +26,8 @@ public class SignupRequest {
   @NotBlank
   @Size(min = 6, max = 40)
   private String password;
+
+  private String name;
+  private String surname;
+  private LocalDate birthDate;
 }

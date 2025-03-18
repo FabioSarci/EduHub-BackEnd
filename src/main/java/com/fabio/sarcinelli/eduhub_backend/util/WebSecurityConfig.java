@@ -69,9 +69,6 @@ public class WebSecurityConfig {
       // Disabilita CSRF (necessario per H2)
       http.cors().and().csrf().disable()
   
-          // Disabilita frameOptions per permettere H2 Console
-          .headers().frameOptions().disable().and()
-  
           // Configura la gestione delle eccezioni per richieste non autorizzate
           .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
   
@@ -86,14 +83,16 @@ public class WebSecurityConfig {
   
           // Permetti l'accesso senza autenticazione agli endpoint di test
           .requestMatchers("/api/test/**").permitAll()
-          .requestMatchers("/thymeleaf/auth/**").permitAll()
+
+          .requestMatchers(
+            "/v3/api-docs/**",    // OpenAPI JSON
+            "/swagger-ui/**",     // Swagger UI risorse
+            "/swagger-ui.html",   // Swagger UI principale
+            "/webjars/**"         // Risorse statiche di Swagger
+            ).permitAll()
   
           // Tutte le altre richieste devono essere autenticate
-          .anyRequest().authenticated()
-          .and()
-          .formLogin()
-          .loginPage("/credential/login")
-          .permitAll();
+          .anyRequest().authenticated();
   
       // Configura il provider di autenticazione
       http.authenticationProvider(authenticationProvider());

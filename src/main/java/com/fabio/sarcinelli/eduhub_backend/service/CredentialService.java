@@ -1,6 +1,7 @@
 package com.fabio.sarcinelli.eduhub_backend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import lombok.SneakyThrows;
@@ -8,6 +9,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import com.fabio.sarcinelli.eduhub_backend.dto.request.CredentialAndUserDtoForm;
+import com.fabio.sarcinelli.eduhub_backend.dto.response.CredentialDto;
 import com.fabio.sarcinelli.eduhub_backend.model.Credential;
 import com.fabio.sarcinelli.eduhub_backend.model.Users;
 import com.fabio.sarcinelli.eduhub_backend.repository.CredentialRepository;
@@ -56,7 +58,7 @@ public class CredentialService {
         }
     }
 
-    public Credential update(Credential updatedCredential) {
+    public CredentialDto update(Credential updatedCredential) {
         log.info("Updating credential with ID: {}", updatedCredential.getId());
 
         Optional<Credential> optionalCredential = credentialRepository.findById(updatedCredential.getId());
@@ -68,7 +70,9 @@ public class CredentialService {
             existingCredential.setPassword(updatedCredential.getPassword());
             existingCredential.setUser(updatedCredential.getUser());
 
-            return credentialRepository.save(existingCredential);
+            credentialRepository.save(existingCredential);
+
+            return new CredentialDto(existingCredential.getUsername(), existingCredential.getEmail(), existingCredential.getRoles());
         } else {
             log.error("Credential with ID {} not found.", updatedCredential.getId());
             throw new IllegalArgumentException("Credential with ID " + updatedCredential.getId() + " not found.");
@@ -99,15 +103,28 @@ public class CredentialService {
         }
     }
 
-    public Optional<Credential> findById(Long id) {
-        log.info("Finding credential by ID: {}", id);
-        return credentialRepository.findById(id);
+    public CredentialDto findById(Long id) {
+        try {
+            log.info("Finding credential by ID: {}", id);
+            Optional<Credential> credential = credentialRepository.findById(id);
+            if (credential.isPresent()) {
+                return new CredentialDto(credential.get().getUsername(), credential.get().getEmail(), credential.get().getRoles());
+            } else {
+                throw new NoSuchElementException("Credential with ID " + id + " not found.");
+            }
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public List<Credential> findAll() {
+    public List<CredentialDto> findAll() {
         try {
             log.info("Finding all credentials");
-            return credentialRepository.findAll();
+            List<Credential> credential = credentialRepository.findAll();
+            return credential.stream()
+                .map(c -> new CredentialDto(c.getUsername(), c.getEmail(), c.getRoles()))
+                .toList();
+                
         } catch (Exception e) {
             log.error("Finding all credentials failed: {}", e);
             return List.of();
@@ -115,9 +132,15 @@ public class CredentialService {
     }
 
     @SneakyThrows
-    public Credential findByEmail(String email){
+    public CredentialDto findByEmail(String email){
 
-        return credentialRepository.findByEmail(email);
+        try {
+            log.info("Finding credential by email: {}", email);
+            Credential credential = credentialRepository.findByEmail(email);
+            return new CredentialDto(credential.getUsername(), credential.getEmail(), credential.getRoles());
+        } catch (Exception e) {
+            throw new NoSuchElementException("Credential with email " + email + " not found.");
+        }
     }
 
     public Optional<Credential> findByUsername(String username) {
