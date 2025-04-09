@@ -33,7 +33,7 @@ public class DataLoader implements CommandLineRunner {
         roleRepository.save(roleAdmin);
 
         Role roleModerator = new Role();
-        roleModerator.setName(ERole.ROLE_MODERATOR);
+        roleModerator.setName(ERole.ROLE_TEACHER);
         roleRepository.save(roleModerator);
 
         Role roleUser = new Role();
@@ -44,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
     if (credentialRepository.findAll().isEmpty()) {
       Set<Role> roles = new HashSet<>();
       roles.add(roleRepository.findByName(ERole.ROLE_ADMIN).get());
-      roles.add(roleRepository.findByName(ERole.ROLE_MODERATOR).get());
+      roles.add(roleRepository.findByName(ERole.ROLE_TEACHER).get());
       roles.add(roleRepository.findByName(ERole.ROLE_USER).get());
 
       Credential admin = new Credential();

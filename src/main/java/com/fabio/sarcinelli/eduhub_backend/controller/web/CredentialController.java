@@ -23,7 +23,7 @@ public class CredentialController {
 
     @Operation(summary = "Trova una credenziale per ID", description = "Restituisce una credenziale dato il suo ID")
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('TEACHER') or hasRole('ADMIN')")
     public ResponseEntity<CredentialDto> findById(@PathVariable Long id) {
         try {
             CredentialDto credential = credentialService.findById(id);
@@ -39,7 +39,7 @@ public class CredentialController {
 
     @Operation(summary = "Trova una credenziale per email", description = "Restituisce una credenziale dato il suo indirizzo email")
     @GetMapping("/email/{email}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('TEACHER') or hasRole('ADMIN')")
     public ResponseEntity<CredentialDto> findByEmail(@PathVariable String email) {
         CredentialDto credential = credentialService.findByEmail(email);
         if (credential != null) {
@@ -51,7 +51,7 @@ public class CredentialController {
 
     @Operation(summary = "Trova tutte le credenziali", description = "Restituisce tutte le credenziali presenti nel sistema")
     @GetMapping
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
     public ResponseEntity<Iterable<CredentialDto>> findAll() {
         Iterable<CredentialDto> credentials = credentialService.findAll();
         return ResponseEntity.ok(credentials);
@@ -59,7 +59,7 @@ public class CredentialController {
 
     @Operation(summary = "Verifica se un username esiste", description = "Controlla se un username è già presente nel sistema")
     @GetMapping("/exist-username/{username}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('TEACHER') or hasRole('ADMIN')")
     public ResponseEntity<Boolean> existByUsername(@PathVariable String username) {
         Boolean exist = credentialService.existsByUsername(username); // Corretto
         if (exist) {
@@ -71,7 +71,7 @@ public class CredentialController {
 
     @Operation(summary = "Verifica se un'email esiste", description = "Controlla se un'email è già presente nel sistema")
     @GetMapping("/exist-email/{email}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('TEACHER') or hasRole('ADMIN')")
     public ResponseEntity<Boolean> existByEmail(@PathVariable String email) {
         Boolean exist = credentialService.existsByEmail(email);
         if (exist) {
@@ -83,7 +83,7 @@ public class CredentialController {
 
     @Operation(summary = "Salva una nuova credenziale", description = "Crea una nuova credenziale nel sistema")
     @PostMapping
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
     public ResponseEntity<CredentialAndUserDtoForm> save(@RequestBody CredentialAndUserDtoForm credential) {
         CredentialAndUserDtoForm credentialSaved = credentialService.save(credential);
         return ResponseEntity.ok().body(credentialSaved);
